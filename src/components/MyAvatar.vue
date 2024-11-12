@@ -1,6 +1,6 @@
 <template>
     <div class="avatar-card">
-        <img src="../assets/life-note/removebg-preview/boy.png" class="avatar">
+        <img src="/assets/life-note/removebg-preview/boy.png" class="avatar">
         <span>“我有一个愿望，种一粒果树种子，然后浇水施肥，它破土而出，一点点长成大树，结出果子，然后摘果子吃”</span>
     </div>
 </template>

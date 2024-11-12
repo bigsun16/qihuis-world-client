@@ -5,7 +5,7 @@
                 <div class="homeImg">
                     <div>
                         <a class="navbar-brand" href="/">
-                            <img class="logoImg" src="../assets/dream-tree/removebg-preview/tree5.png" alt="">
+                            <img class="logoImg" src="/assets/dream-tree/removebg-preview/tree5.png" alt="">
                         </a>
                     </div>
                     <div>

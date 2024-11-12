@@ -3,7 +3,7 @@
     <div class="grameLayout bgClass">
         <div class="left">
             <figure class="myInfo">
-                <img class="myavatar" src="../assets/life-note/removebg-preview/boy.png" alt="靓仔照片">
+                <img class="myavatar" src="/assets/life-note/removebg-preview/boy.png" alt="靓仔照片">
                 <figcaption>注意看，这个男人叫小帅</figcaption>
                 <span>
                     {{ introduce }}

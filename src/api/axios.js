@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const requestInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://localhost:8080/',
   timeout: 5000 // 请求超时时间  
   // 这里可以添加其他全局配置  
 });
