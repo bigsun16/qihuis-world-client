@@ -2,7 +2,7 @@
 
     <div class="container">
         <div class="cardsTitle">
-            <h2>我的理想生活</h2>
+            <h2>追求源于热爱</h2>
         </div>
         <div class="row cards">
             <div class="card col-lg-3 col-md-6" v-for="hobby in store.menuList" :key="hobby.id"
