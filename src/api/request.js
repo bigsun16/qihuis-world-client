@@ -21,7 +21,7 @@ export const requestCategoryList = async () => {
     return response.data
 }
 
-export const createUser = async (userData) => {
-    const response = await requestInstance.post('/users', userData)
+export const addArticle = async (article) => {
+    const response = await requestInstance.post('/article/add', article)
     return response.data
 }

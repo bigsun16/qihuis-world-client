@@ -4,7 +4,8 @@
             :key="index">
             <el-card class="myTimecard" @click="openArticleDetail(article)">
                 <h4>{{ article.title }}</h4>
-                <p class="articleText">{{ article.content }}</p>
+                <!-- <p class="articleText">{{ article.content }}</p> -->
+                <Editor class="editor" v-model="article.content" :mode="mode"/>
             </el-card>
         </el-timeline-item>
         <div class="loadInfo">
@@ -21,6 +22,7 @@ import ThoughtArticleDetail from './ThoughtArticleDetail.vue'
 import { ref, onMounted, computed, reactive } from 'vue';
 import { requestArticleList } from '@/api/request';
 import { useRoute } from 'vue-router';
+import { Editor } from '@wangeditor/editor-for-vue'
 
 let articles = ref([]);
 const route = useRoute()

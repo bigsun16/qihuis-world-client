@@ -22,7 +22,7 @@ import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { useMenuBarStore } from '@/store/PiniaStore';
-
+import { addArticle } from '@/api/request';
 const store = useMenuBarStore()
 
 const articleType = ref("")
@@ -47,13 +47,19 @@ onBeforeUnmount(() => {
 
 const handleCreated = (editor) => {
     editorRef.value = editor // 记录 editor 实例，重要！
-    console.log(editorRef.HTML);
 }
 
 function submit(){
-    console.log("type:"+articleType.value)
-    console.log("title:"+articleTitle.value)
-    console.log("content:"+valueHtml.value)
+    
+    let article = {
+        "categoryKey": articleType.value,
+        "title": articleTitle.value,
+        "content": valueHtml.value
+    }
+    addArticle(article)
+    articleType.value = "";
+    articleTitle.value = "";
+    valueHtml.value = "";
 }
 
 </script>

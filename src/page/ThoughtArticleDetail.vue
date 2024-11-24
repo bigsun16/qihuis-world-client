@@ -2,14 +2,14 @@
     <el-dialog class="my-dialog" v-model="localDialogVisible" :title="article.createTime" @close="handleClose">
         <div class="article">
             <h4>{{ article.title }}</h4>
-            <p>{{ article.content }}</p>
+            <Editor class="editor" v-model="article.content" :mode="mode"/>
         </div>
     </el-dialog>
 </template>
 
 <script setup>
 import { reactive, ref } from 'vue'
-
+import { Editor } from '@wangeditor/editor-for-vue'
 const props = defineProps({
     dialogDetailVisible: {
         type: Boolean,
