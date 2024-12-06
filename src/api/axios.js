@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const requestInstance = axios.create({
-  baseURL: 'http://www.sunqihui.com:8888/qihuis-world',
+  baseURL: 'http://www.sunqihui.com/qihuis-world',
   timeout: 5000 // 请求超时时间  
   // 这里可以添加其他全局配置  
 });
