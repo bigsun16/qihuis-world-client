@@ -14,7 +14,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="/wish/addArticlePage">
+                <a href="/wish/addArticlePage?type=add">
                     <i style="font-size: 2rem; color: orange;" class="bi bi-plus-circle" title="写文章"></i>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"

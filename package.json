@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.7.2",
@@ -17,6 +18,8 @@
     "bootstrap-icons": "^1.11.3",
     "element-plus": "^2.7.6",
     "pinia": "^2.1.7",
+    "unplugin-auto-import": "^0.19.0",
+    "unplugin-vue-components": "^0.28.0",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0"
   },

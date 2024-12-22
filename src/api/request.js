@@ -25,3 +25,8 @@ export const addArticle = async (article) => {
     const response = await requestInstance.post('/article/add', article)
     return response.data
 }
+
+export const deleteArticle = async (id) => {
+    const response = await requestInstance.delete(`/article/${id}`)
+    return response.data
+}

@@ -14,12 +14,8 @@ const router = createRouter({
       children: [
         {
           path: 'thoughtPage',
-          alias: ['sportPage', 'aquariumPage', 'moviePage', 'viewPage', 'treePage', 'notebookPage'],
-          component: () => import('../page/ThoughtPage.vue'),
-        },
-        {
-          path: 'musicPage',
-          component: () => import('../page/MusicPage.vue')
+          alias: ['sportPage', 'aquariumPage', 'moviePage', 'viewPage', 'treePage', 'notebookPage', 'notebookPage', 'musicPage'],
+          component: () => import('../page/ArticleListPage.vue'),
         },
         {
           path: 'addArticlePage',
