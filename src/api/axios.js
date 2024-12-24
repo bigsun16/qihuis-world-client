@@ -1,26 +1,34 @@
 import axios from 'axios';
 
 const requestInstance = axios.create({
+  // baseURL: 'http://8.155.9.156/qihuis-world',
   baseURL: 'http://localhost:8888/qihuis-world',
   timeout: 5000 // 请求超时时间  
   // 这里可以添加其他全局配置  
 });
 
 // 请求拦截器  
-// requestInstance.interceptors.request.use(
-//   config => {
-//     // 在发送请求之前做些什么，比如设置token  
-//     if (store.getters.token) {
-//       config.headers['X-Token'] = getToken();
-//     }
-//     return config;
-//   },
-//   error => {
-//     // 对请求错误做些什么  
-//     console.error('请求发生错误', error); // for debug  
-//     Promise.reject(error);
-//   }
-// );
+requestInstance.interceptors.request.use(
+  config => {
+    // 在发送请求之前做些什么，比如设置token  
+    let satoken = sessionStorage.getItem('qihuis-world-token')
+    if(!satoken){
+      satoken = localStorage.getItem('qihuis-world-token')
+      if(!satoken){
+        return config
+      }
+    }
+    satoken = JSON.parse(satoken)
+    console.log('satoken', satoken.tokenName,+":"+satoken.tokenValue)
+    config.headers[satoken.tokenName] = satoken.tokenValue
+    return config;
+  },
+  error => {
+    // 对请求错误做些什么  
+    console.error('请求发生错误', error); // for debug  
+    Promise.reject(error);
+  }
+);
 
 // // 响应拦截器  
 // requestInstance.interceptors.response.use(

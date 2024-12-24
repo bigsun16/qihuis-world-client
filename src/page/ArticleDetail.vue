@@ -45,7 +45,7 @@ onBeforeUnmount(() => {
 })
 
 function handleEdit() {
-    localStorage.setItem('updateArticle', JSON.stringify(props.article))
+    sessionStorage.setItem('updateArticle', JSON.stringify(props.article))
     router.push('/wish/addArticlePage?type=update')
 }
 

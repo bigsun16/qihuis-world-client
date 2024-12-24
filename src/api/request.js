@@ -30,3 +30,13 @@ export const deleteArticle = async (id) => {
     const response = await requestInstance.delete(`/article/${id}`)
     return response.data
 }
+
+export const doLogin = async (user) => {
+    const response = await requestInstance.post('/user/login', user)
+    return response.data
+}
+
+export const doLogout = async () => {
+    const response = await requestInstance.get('/user/logout')
+    return response.data
+}

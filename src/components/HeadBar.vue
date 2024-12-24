@@ -17,6 +17,9 @@
                 <a href="/wish/addArticlePage?type=add">
                     <i style="font-size: 2rem; color: orange;" class="bi bi-plus-circle" title="写文章"></i>
                 </a>
+                <a style="color: white;" @click="dialogLoginVisible = true">登录</a>
+                <a style="color: white;" @click="logout">注销</a>
+                <span style="color: white;">{{currentUser}}</span>>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                     <span class="navbar-toggler-icon"></span>
@@ -41,13 +44,27 @@
             </div>
         </nav>
     </div>
+    <LoginPage v-model="dialogLoginVisible" @update:dialogLoginVisible="dialogLoginVisible = $event"
+    @update:currentUser="currentUser = $event"></LoginPage>
 </template>
 
 <script setup>
 import { useMenuBarStore } from '@/store/PiniaStore';
+import LoginPage from '@/page/LoginPage.vue';
+import { ref } from 'vue';
+import { doLogout } from '@/api/request';
 
+const currentUser = ref('')
+
+const dialogLoginVisible = ref(false)
 const store = useMenuBarStore()
 store.categoryList()
+
+function logout() {
+    doLogout().then(() => {
+        sessionStorage.clear();
+    })
+}
 
 </script>
 

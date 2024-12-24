@@ -1,16 +1,18 @@
 <template>
     <el-timeline>
         <el-scrollbar class="myTimeLine" style="overflow: auto">
-            <el-timeline-item :timestamp="article.createTime" placement="top" v-for="(article, index) in articles" :key="index">
+            <el-timeline-item :timestamp="article.createTime" placement="top" v-for="(article, index) in articles"
+                :key="index">
                 <el-card class="myTimecard" @click="openArticleDetail(article)">
                     <h4>{{ article.title }}</h4>
                     <p class="articleText">{{ article.previewText }}</p>
                 </el-card>
             </el-timeline-item>
         </el-scrollbar>
-        
+
     </el-timeline>
-    <ArticleDetail :article="thisArticle" v-model="dialogDetailVisible" @update:dialogDetailVisible="dialogDetailVisible = $event"></ArticleDetail>
+    <ArticleDetail :article="thisArticle" v-model="dialogDetailVisible"
+        @update:dialogDetailVisible="dialogDetailVisible = $event"></ArticleDetail>
 </template>
 
 <script setup>

@@ -3,7 +3,8 @@
         <div class="typeAndTitle">
             <select class="form-select form-select-lg mb-3" v-model="article.categoryKey">
                 <option disabled selected value="null">类型</option>
-                <option :value="hobby.categoryKey" v-for="hobby in store.menuList" :key="hobby.id">{{hobby.categoryName}}</option>
+                <option :value="hobby.categoryKey" v-for="hobby in store.menuList" :key="hobby.id">
+                    {{ hobby.categoryName }}</option>
             </select>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default">标题</span>
@@ -52,15 +53,15 @@ onMounted(() => {
     addOrUpdte = route.query.type
 })
 const handleCreated = (editor) => {
-    
+
     if (addOrUpdte === 'update') {
         article.value = JSON.parse(localStorage.getItem('updateArticle'))
     }
     editorRef.value = editor // 记录 editor 实例，重要！
 }
 
-function submit(){
-    article.value.previewText = editorRef.value.getText().substring(0,50)
+function submit() {
+    article.value.previewText = editorRef.value.getText().substring(0, 50)
     addArticle(article.value)
     article.value = {
         categoryKey: 'null',
