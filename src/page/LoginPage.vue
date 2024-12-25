@@ -10,7 +10,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="close">取 消</el-button>
         <el-button type="primary" @click="handleLogin">确 定</el-button>
       </span>
     </template>
@@ -25,17 +25,18 @@ const loginForm = ref({
   username: '',
   password: ''
 });
-
-
 const emit = defineEmits(['update:dialogLoginVisible','update:currentUser'])
 const handleLogin = () => {
   if (loginForm.value.username && loginForm.value.password) {
     doLogin(loginForm.value).then((res) => {
       let satoken = {
         tokenName: res.data.tokenName,
-        tokenValue: res.data.tokenValue
+        tokenValue: res.data.tokenValue,
+        loginId: res.data.loginId,
+        username: res.username,
+        roleList: res.roleList
       }
-      sessionStorage.setItem('qihuis-world-token', JSON.stringify(satoken));
+      sessionStorage.setItem('login_info', JSON.stringify(satoken));
       emit('update:currentUser', res.username)
     });
     ElMessage.success('登录成功');

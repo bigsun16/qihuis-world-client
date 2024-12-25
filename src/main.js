@@ -13,4 +13,7 @@ const app = createApp(App)
 app.use(ElementPlus)
 app.use(router)
 app.use(createPinia())
+import { useMenuBarStore } from '@/store/PiniaStore'
+const store = useMenuBarStore()
+store.categoryList()
 app.mount('#app')

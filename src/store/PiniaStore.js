@@ -8,7 +8,9 @@ export const useMenuBarStore = defineStore('menuList', {
   actions: {
     async categoryList() {
       const result = await requestCategoryList()
-      this.menuList = result
+      if (result.code === 200){
+        this.menuList = result.data
+      }
       // Object.assign(this.menuList, result)
     }
   }

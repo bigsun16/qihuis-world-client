@@ -19,10 +19,9 @@
 
 <script setup>
 import router from '@/router';
-import { useMenuBarStore } from '@/store/PiniaStore';
+import { useMenuBarStore } from '@/store/PiniaStore'
 
 const store = useMenuBarStore()
-
 function gotoPage(hobbyKey) {
     router.push("/wish/" + hobbyKey)
 }

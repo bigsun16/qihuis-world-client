@@ -11,16 +11,15 @@ const requestInstance = axios.create({
 requestInstance.interceptors.request.use(
   config => {
     // 在发送请求之前做些什么，比如设置token  
-    let satoken = sessionStorage.getItem('qihuis-world-token')
-    if(!satoken){
-      satoken = localStorage.getItem('qihuis-world-token')
-      if(!satoken){
+    let loginInfo = sessionStorage.getItem('login_info')
+    if (!loginInfo) {
+      loginInfo = localStorage.getItem('login_info')
+      if (!loginInfo) {
         return config
       }
     }
-    satoken = JSON.parse(satoken)
-    console.log('satoken', satoken.tokenName,+":"+satoken.tokenValue)
-    config.headers[satoken.tokenName] = satoken.tokenValue
+    loginInfo = JSON.parse(loginInfo)
+    config.headers[loginInfo.tokenName] = loginInfo.tokenValue
     return config;
   },
   error => {

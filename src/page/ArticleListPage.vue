@@ -26,12 +26,15 @@ const route = useRoute()
 
 const currentPath = computed(() => route.path)
 const pageName = currentPath.value.substring(currentPath.value.lastIndexOf('/') + 1)
-onMounted(
-    async () => {
-        const response = await requestArticleList(pageName)
-        articles.value = response.data
-    }
-);
+onMounted(()=>{
+    requestArticleList(pageName).then(response => {
+        // debugger
+        if (response.code === 200) {
+            articles.value = response.data
+        }
+    })
+
+})
 
 let thisArticle = reactive({})
 const dialogDetailVisible = ref(false)

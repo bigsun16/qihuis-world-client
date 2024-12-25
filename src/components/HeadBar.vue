@@ -14,7 +14,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="/wish/addArticlePage?type=add">
+                <a @click="addArticle" >
                     <i style="font-size: 2rem; color: orange;" class="bi bi-plus-circle" title="写文章"></i>
                 </a>
                 <a style="color: white;" @click="dialogLoginVisible = true">登录</a>
@@ -49,20 +49,36 @@
 </template>
 
 <script setup>
-import { useMenuBarStore } from '@/store/PiniaStore';
 import LoginPage from '@/page/LoginPage.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { doLogout } from '@/api/request';
-
+import router from '@/router';
+import { useMenuBarStore } from '@/store/PiniaStore'
 const currentUser = ref('')
 
-const dialogLoginVisible = ref(false)
 const store = useMenuBarStore()
-store.categoryList()
+const dialogLoginVisible = ref(false)
 
+onMounted(() => {
+    const loginInfo = sessionStorage.getItem('login_info')
+    if (loginInfo) {
+        currentUser.value = JSON.parse(loginInfo).username
+    }
+})
+
+function addArticle() {
+    let loginInfo = sessionStorage.getItem('login_info')
+    if (loginInfo) {
+        router.push('/wish/addArticlePage?type=add')
+    } else {
+        dialogLoginVisible.value = true
+    }
+}
 function logout() {
     doLogout().then(() => {
         sessionStorage.clear();
+        currentUser.value = ''
+        router.go(0)
     })
 }
 
