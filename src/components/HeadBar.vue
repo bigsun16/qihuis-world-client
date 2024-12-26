@@ -82,11 +82,6 @@ watch(() => tokenIsOkStore.tokenIsOk, (newTokenIsOk) => {
 },
     { immediate: true }
 );
-// onMounted(() => {
-//     isLogin().then(res => {
-//         tokenIsOkStore.tokenIsOk = res.data
-//     })
-// })
 
 function addArticle() {
     let loginInfo = localStorage.getItem('login_info')
