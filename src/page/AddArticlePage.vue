@@ -23,7 +23,7 @@ import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { addOrUpdateArticle } from '@/api/request';
-import { onBeforeRouteLeave, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import router from '@/router';
 import { useMenuBarStore } from '@/store/PiniaStore'
 
@@ -46,27 +46,16 @@ const editorConfig = { placeholder: '请输入内容...' }
 const route = useRoute()
 let addOrUpdte = "add"
 onMounted(() => {
-    window.addEventListener('beforeunload', handleBeforeUnload);
     addOrUpdte = route.query.type
-})
-function handleBeforeUnload(event) {
-    const login_info = JSON.parse(sessionStorage.getItem('login_info'))
-    if (!login_info) {
-        router.push('/')
-        router.go(0)
-    }else{
+    const login_info = JSON.parse(localStorage.getItem('login_info'))
+    if (login_info) {
         article.value.userId = login_info.loginId
         article.value.author = login_info.username
     }
-}
+})
 
-onBeforeRouteLeave((to, from, next) => {
-    // 在离开当前路由前执行的操作
-    next();
-});
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
-    window.removeEventListener('beforeunload', handleBeforeUnload);
     const editor = editorRef.value
     if (editor == null) return
     editor.destroy()
@@ -75,8 +64,6 @@ onBeforeUnmount(() => {
 const handleCreated = (editor) => {
     if (addOrUpdte === 'update') {
         article.value = JSON.parse(sessionStorage.getItem('updateArticle'))
-    } else {
-        article.value
     }
     editorRef.value = editor // 记录 editor 实例，重要！
 }
@@ -126,7 +113,7 @@ function submit() {
     }
 
     .editorClass {
-        height: 60vh !important;
+        height: 70vh !important;
         border: 1px solid #ccc;
         overflow-y: hidden;
     }

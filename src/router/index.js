@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../page/HomePage.vue'
+import { isLogin } from '@/api/request'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,7 +20,10 @@ const router = createRouter({
         },
         {
           path: 'addArticlePage',
-          component: () => import('../page/AddArticlePage.vue')
+          component: () => import('../page/AddArticlePage.vue'),
+          meta: {
+            requiresAuth: true
+          }
         }
       ]
     }
@@ -27,4 +31,15 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  //
+  if (to.matched.some(record => record.meta.requiresAuth)){
+      isLogin().then(res => {
+        return res ? next() : next('/')
+      })
+  } else{
+    next()
+  }
+  
+})
 export default router

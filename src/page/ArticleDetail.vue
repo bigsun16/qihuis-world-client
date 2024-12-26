@@ -50,7 +50,7 @@ onBeforeUnmount(() => {
 })
 
 function handleEdit() {
-    const loginInfo = JSON.parse(sessionStorage.getItem('login_info'))
+    const loginInfo = JSON.parse(localStorage.getItem('login_info'))
     if(!loginInfo){
         innerVisible.value = true
         notice.value = "请先登录"
@@ -68,7 +68,7 @@ function handleClose() {
 }
 
 function handleDelete() {
-    const loginInfo = JSON.parse(sessionStorage.getItem('login_info'))
+    const loginInfo = JSON.parse(localStorage.getItem('login_info'))
     if(!loginInfo){
         innerVisible.value = true
         notice.value = "请先登录"

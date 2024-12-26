@@ -60,14 +60,14 @@ const store = useMenuBarStore()
 const dialogLoginVisible = ref(false)
 
 onMounted(() => {
-    const loginInfo = sessionStorage.getItem('login_info')
+    const loginInfo = localStorage.getItem('login_info')
     if (loginInfo) {
         currentUser.value = JSON.parse(loginInfo).username
     }
 })
 
 function addArticle() {
-    let loginInfo = sessionStorage.getItem('login_info')
+    let loginInfo = localStorage.getItem('login_info')
     if (loginInfo) {
         router.push('/wish/addArticlePage?type=add')
     } else {
@@ -76,6 +76,7 @@ function addArticle() {
 }
 function logout() {
     doLogout().then(() => {
+        localStorage.clear();
         sessionStorage.clear();
         currentUser.value = ''
         router.go(0)

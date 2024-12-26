@@ -36,7 +36,7 @@ const handleLogin = () => {
         username: res.username,
         roleList: res.roleList
       }
-      sessionStorage.setItem('login_info', JSON.stringify(satoken));
+      localStorage.setItem('login_info', JSON.stringify(satoken));
       emit('update:currentUser', res.username)
     });
     ElMessage.success('登录成功');

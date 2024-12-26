@@ -11,12 +11,9 @@ const requestInstance = axios.create({
 requestInstance.interceptors.request.use(
   config => {
     // 在发送请求之前做些什么，比如设置token  
-    let loginInfo = sessionStorage.getItem('login_info')
+    let loginInfo = localStorage.getItem('login_info')
     if (!loginInfo) {
-      loginInfo = localStorage.getItem('login_info')
-      if (!loginInfo) {
-        return config
-      }
+      return config
     }
     loginInfo = JSON.parse(loginInfo)
     config.headers[loginInfo.tokenName] = loginInfo.tokenValue
