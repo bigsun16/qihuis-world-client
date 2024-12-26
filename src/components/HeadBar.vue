@@ -14,12 +14,14 @@
                         </a>
                     </div>
                 </div>
-                <a @click="addArticle">
-                    <i style="font-size: 2rem; color: orange;" class="bi bi-plus-circle" title="写文章"></i>
-                </a>
-                <a style="color: white;" @click="dialogLoginVisible = true">登录</a>
-                <a style="color: white;" @click="logout">注销</a>
-                <span style="color: white;">{{ currentUser }}</span>>
+                <div class="headerButtonGroup">
+                    <el-button class="headerButton" @click="addArticle" link><i class="bi bi-plus-circle"
+                            title="写文章"></i></el-button>
+                    <el-button class="headerButton" @click="dialogLoginVisible = true" link>登录</el-button>
+                    <el-button class="headerButton" @click="logout" link>退出</el-button>
+                    <span class="loginUser">{{ currentUser }}</span>>
+                </div>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                     <span class="navbar-toggler-icon"></span>
@@ -68,17 +70,23 @@ const currentUser = computed(() => {
 })
 watch(() => tokenIsOkStore.tokenIsOk, (newTokenIsOk) => {
     if (!newTokenIsOk) {
-        localStorage.clear();
-        sessionStorage.clear();
+        isLogin().then(res => {
+            tokenIsOkStore.tokenIsOk = res.data
+            if (!res.data) {
+                localStorage.clear();
+                sessionStorage.clear();
+            }
+        })
+
     }
 },
     { immediate: true }
 );
-onMounted(() => {
-    isLogin().then(res => {
-        tokenIsOkStore.tokenIsOk = res.data
-    })
-})
+// onMounted(() => {
+//     isLogin().then(res => {
+//         tokenIsOkStore.tokenIsOk = res.data
+//     })
+// })
 
 function addArticle() {
     let loginInfo = localStorage.getItem('login_info')
@@ -116,6 +124,8 @@ function logout() {
     .container-fluid {
         padding-right: calc(var(--bs-gutter-x)* 1.5);
         padding-left: calc(var(--bs-gutter-x)* 1.5);
+        display: flex;
+        justify-content: flex-end;
     }
 
     .navbar-toggler {
@@ -126,6 +136,7 @@ function logout() {
         display: flex;
         justify-items: center;
         align-items: center;
+        margin-right: auto;
 
         .navbar-brand {
             padding: 0;
@@ -182,6 +193,26 @@ function logout() {
 
 }
 
+.headerButtonGroup {
+    display: flex;
+    justify-content: center;
+    margin-right: 2rem;
+
+    .headerButton {
+        font-size: 1.2rem;
+        color: #ff9800;
+
+        &:hover {
+            background-color: rgba(155, 157, 158, 0.1) !important;
+        }
+    }
+
+    .loginUser {
+        color: #ff9800;
+        margin-left: 1rem;
+    }
+}
+
 .amazingcolor() {
     background-image: -webkit-linear-gradient(left, #cddc39, #ff9800 25%, #cddc39 50%, #ff9800 75%, #cddc39) !important;
     -webkit-text-fill-color: transparent !important;
@@ -202,5 +233,14 @@ function logout() {
         }
     }
 
+}
+
+@media (max-width: 772px) {
+    .headerButtonGroup {
+        margin-right: 0;
+        .headerButton {
+            font-size: 1rem;
+        }
+    }
 }
 </style>

@@ -118,4 +118,11 @@ function submit() {
         overflow-y: hidden;
     }
 }
+@media (max-width: 772px) {
+    .addArticlePage {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}
 </style>

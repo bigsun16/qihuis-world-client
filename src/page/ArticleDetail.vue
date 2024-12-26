@@ -130,7 +130,7 @@ function handleDelete() {
         }
 
         .editorClass {
-            height: 60vh !important;
+            height: 70vh !important;
             border: 1px solid #ccc;
             overflow-y: hidden;
         }

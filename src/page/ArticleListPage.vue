@@ -28,7 +28,6 @@ const currentPath = computed(() => route.path)
 const pageName = currentPath.value.substring(currentPath.value.lastIndexOf('/') + 1)
 onMounted(()=>{
     requestArticleList(pageName).then(response => {
-        // debugger
         if (response.code === 200) {
             articles.value = response.data
         }
