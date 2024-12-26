@@ -11,7 +11,12 @@ export const useMenuBarStore = defineStore('menuList', {
       if (result.code === 200){
         this.menuList = result.data
       }
-      // Object.assign(this.menuList, result)
     }
   }
+})
+
+export const useTokenIsOkStore = defineStore('tokenIsOk', {
+  state: () => ({
+    tokenIsOk: false
+  })
 })

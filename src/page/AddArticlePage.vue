@@ -30,13 +30,13 @@ import { useMenuBarStore } from '@/store/PiniaStore'
 const store = useMenuBarStore()
 
 const article = ref({
-        categoryKey: 'null',
-        title: '',
-        content: '<p></p>',
-        previewText: '',
-        userId: '',
-        author: ''
-    })
+    categoryKey: 'null',
+    title: '',
+    content: '<p></p>',
+    previewText: '',
+    userId: '',
+    author: ''
+})
 const mode = ref("default")
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../page/HomePage.vue'
 import { isLogin } from '@/api/request'
+import { useTokenIsOkStore } from '@/store/PiniaStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,13 +34,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   //
-  if (to.matched.some(record => record.meta.requiresAuth)){
-      isLogin().then(res => {
-        return res ? next() : next('/')
-      })
-  } else{
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    isLogin().then(res => {
+      useTokenIsOkStore().tokenIsOk = res.data
+      return res.data ? next() : next('/')
+    })
+  } else {
     next()
   }
-  
+
 })
 export default router

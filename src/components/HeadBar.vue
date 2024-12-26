@@ -14,12 +14,12 @@
                         </a>
                     </div>
                 </div>
-                <a @click="addArticle" >
+                <a @click="addArticle">
                     <i style="font-size: 2rem; color: orange;" class="bi bi-plus-circle" title="写文章"></i>
                 </a>
                 <a style="color: white;" @click="dialogLoginVisible = true">登录</a>
                 <a style="color: white;" @click="logout">注销</a>
-                <span style="color: white;">{{currentUser}}</span>>
+                <span style="color: white;">{{ currentUser }}</span>>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                     <span class="navbar-toggler-icon"></span>
@@ -44,26 +44,40 @@
             </div>
         </nav>
     </div>
-    <LoginPage v-model="dialogLoginVisible" @update:dialogLoginVisible="dialogLoginVisible = $event"
-    @update:currentUser="currentUser = $event"></LoginPage>
+    <LoginPage v-model="dialogLoginVisible" @update:dialogLoginVisible="dialogLoginVisible = $event"></LoginPage>
 </template>
 
 <script setup>
 import LoginPage from '@/page/LoginPage.vue';
-import { ref, onMounted } from 'vue';
-import { doLogout } from '@/api/request';
+import { ref, onMounted, computed, watch } from 'vue';
+import { doLogout, isLogin } from '@/api/request';
 import router from '@/router';
-import { useMenuBarStore } from '@/store/PiniaStore'
-const currentUser = ref('')
+import { useMenuBarStore, useTokenIsOkStore } from '@/store/PiniaStore'
 
 const store = useMenuBarStore()
 const dialogLoginVisible = ref(false)
+const tokenIsOkStore = useTokenIsOkStore()
 
-onMounted(() => {
-    const loginInfo = localStorage.getItem('login_info')
-    if (loginInfo) {
-        currentUser.value = JSON.parse(loginInfo).username
+const currentUser = computed(() => {
+    if (!tokenIsOkStore.tokenIsOk) {
+        return ""
+    } else {
+        const loginInfo = JSON.parse(localStorage.getItem('login_info'));
+        return loginInfo ? loginInfo.username : '';
     }
+})
+watch(() => tokenIsOkStore.tokenIsOk, (newTokenIsOk) => {
+    if (!newTokenIsOk) {
+        localStorage.clear();
+        sessionStorage.clear();
+    }
+},
+    { immediate: true }
+);
+onMounted(() => {
+    isLogin().then(res => {
+        tokenIsOkStore.tokenIsOk = res.data
+    })
 })
 
 function addArticle() {
@@ -76,9 +90,7 @@ function addArticle() {
 }
 function logout() {
     doLogout().then(() => {
-        localStorage.clear();
-        sessionStorage.clear();
-        currentUser.value = ''
+        tokenIsOkStore.tokenIsOk = false
         router.go(0)
     })
 }

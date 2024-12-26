@@ -21,11 +21,12 @@
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { doLogin } from '@/api/request';
+import { useTokenIsOkStore } from '@/store/PiniaStore';
 const loginForm = ref({
   username: '',
   password: ''
 });
-const emit = defineEmits(['update:dialogLoginVisible','update:currentUser'])
+const emit = defineEmits(['update:dialogLoginVisible'])
 const handleLogin = () => {
   if (loginForm.value.username && loginForm.value.password) {
     doLogin(loginForm.value).then((res) => {
@@ -37,16 +38,17 @@ const handleLogin = () => {
         roleList: res.roleList
       }
       localStorage.setItem('login_info', JSON.stringify(satoken));
-      emit('update:currentUser', res.username)
+      useTokenIsOkStore().tokenIsOk = true
+      ElMessage.success('登录成功');
+      emit('update:dialogLoginVisible', false)
     });
-    ElMessage.success('登录成功');
-    emit('update:dialogLoginVisible', false)
+
   } else {
     ElMessage.error('请输入用户名和密码');
   }
 };
 function close() {
-    emit('update:dialogLoginVisible', false)
+  emit('update:dialogLoginVisible', false)
 }
 
 </script>
