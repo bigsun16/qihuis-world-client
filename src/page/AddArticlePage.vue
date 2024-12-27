@@ -63,7 +63,7 @@ onBeforeUnmount(() => {
 
 const handleCreated = (editor) => {
     if (addOrUpdte === 'update') {
-        article.value = JSON.parse(sessionStorage.getItem('updateArticle'))
+        article.value = JSON.parse(localStorage.getItem('updateArticle'))
     }
     editorRef.value = editor // 记录 editor 实例，重要！
 }

@@ -58,7 +58,7 @@ function handleEdit() {
         notice.value = "只能修改自己的文章"
         innerVisible.value = true
     } else{
-        sessionStorage.setItem('updateArticle', JSON.stringify(props.article))
+        localStorage.setItem('updateArticle', JSON.stringify(props.article))
         router.push('/wish/addArticlePage?type=update')
     }
 }

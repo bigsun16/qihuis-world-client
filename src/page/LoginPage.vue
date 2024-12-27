@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="登录" :close-on-click-modal="false" width="30%" center>
+  <el-dialog class="login-dialog" title="登录" :close-on-click-modal="false" width="30%" center>
     <el-form :model="loginForm" label-width="80px">
       <el-form-item label="用户名">
         <el-input v-model="loginForm.username"></el-input>
@@ -53,8 +53,23 @@ function close() {
 
 </script>
 
-<style scoped>
-.dialog-footer button:first-child {
-  margin-right: 10px;
+<style lang="less">
+
+.login-dialog {
+  width: 30% !important;
+  .dialog-footer button:first-child {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .login-dialog {
+    width: 50vw !important;
+  }
+}
+@media (max-width: 750px) {
+  .login-dialog {
+    width: 90vw !important;
+  }
 }
 </style>

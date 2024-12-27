@@ -45,8 +45,9 @@
                 </div>
             </div>
         </nav>
+        <LoginPage v-model="dialogLoginVisible" @update:dialogLoginVisible="dialogLoginVisible = $event"></LoginPage>
     </div>
-    <LoginPage v-model="dialogLoginVisible" @update:dialogLoginVisible="dialogLoginVisible = $event"></LoginPage>
+    
 </template>
 
 <script setup>
@@ -74,7 +75,6 @@ watch(() => tokenIsOkStore.tokenIsOk, (newTokenIsOk) => {
             tokenIsOkStore.tokenIsOk = res.data
             if (!res.data) {
                 localStorage.clear();
-                sessionStorage.clear();
             }
         })
 
@@ -185,28 +185,28 @@ function logout() {
             background-color: rgba(155, 157, 158, 0.1) !important;
         }
     }
+    .headerButtonGroup {
+        display: flex;
+        justify-content: center;
+        margin-right: 2rem;
 
-}
+        .headerButton {
+            font-size: 1.2rem;
+            color: #ff9800;
 
-.headerButtonGroup {
-    display: flex;
-    justify-content: center;
-    margin-right: 2rem;
+            &:hover {
+                background-color: rgba(155, 157, 158, 0.1) !important;
+            }
+        }
 
-    .headerButton {
-        font-size: 1.2rem;
-        color: #ff9800;
-
-        &:hover {
-            background-color: rgba(155, 157, 158, 0.1) !important;
+        .loginUser {
+            color: #ff9800;
+            margin-left: 1rem;
         }
     }
-
-    .loginUser {
-        color: #ff9800;
-        margin-left: 1rem;
-    }
 }
+
+
 
 .amazingcolor() {
     background-image: -webkit-linear-gradient(left, #cddc39, #ff9800 25%, #cddc39 50%, #ff9800 75%, #cddc39) !important;
@@ -230,12 +230,37 @@ function logout() {
 
 }
 
-@media (max-width: 772px) {
-    .headerButtonGroup {
-        margin-right: 0;
-        .headerButton {
+@media (max-width: 700px) {
+    .navbar {
+        .homeImg .logoImg {
+            height: 1.5rem;
+        }
+        .nav-name {
             font-size: 1rem;
+            >span {
+                line-height: 1.5rem !important;
+            }
+        }
+        .navbar-toggler {
+            width: 0rem;
+            height: 0rem;
+            span {
+                display: none;
+            }
+        }
+        .headerButtonGroup {
+            margin-right: 0;
+            .headerButton {
+                font-size: 1rem;
+            }
+            .loginUser {
+                display: inline-block;
+                position: absolute;
+                top: 3.5rem;
+                margin-left: 1rem;
+            }
         }
     }
+    
 }
 </style>
