@@ -2,8 +2,7 @@ import requestInstance from '@/api/axios'; // 假设axios实例的文件路径�
 
 export const requestArticleList = async (categoryKey) => {
     try {
-        const response = await requestInstance.get('/article/list', { params: { 'categoryKey': categoryKey } });
-        return response.data;
+        return await requestInstance.get('/article/list', { params: { 'categoryKey': categoryKey } });
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
@@ -12,8 +11,7 @@ export const requestArticleList = async (categoryKey) => {
 
 export const requestCategoryList = async () => {
     try {
-        const response = await requestInstance.get('/category/list')
-        return response.data;
+        return await requestInstance.get('/category/list')
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
@@ -22,8 +20,7 @@ export const requestCategoryList = async () => {
 
 export const addOrUpdateArticle = async (article) => {
     try {
-        const response = await requestInstance.post('/article/addOrUpdate', article)
-        return response.data;
+        return await requestInstance.post('/article/addOrUpdate', article)
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
@@ -32,8 +29,7 @@ export const addOrUpdateArticle = async (article) => {
 
 export const deleteArticle = async (id) => {
     try {
-        const response = await requestInstance.delete(`/article/${id}`)
-        return response.data;
+        return await requestInstance.delete(`/article/${id}`)
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
@@ -42,8 +38,7 @@ export const deleteArticle = async (id) => {
 
 export const doLogin = async (user) => {
     try {
-        const response = await requestInstance.post('/user/login', user)
-        return response.data;
+        return await requestInstance.post('/user/login', user)
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
@@ -52,8 +47,7 @@ export const doLogin = async (user) => {
 
 export const doLogout = async () => {
     try {
-        const response = await requestInstance.get('/user/logout')
-        return response.data;
+        return await requestInstance.get('/user/logout')
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
@@ -63,10 +57,10 @@ export const doLogout = async () => {
 export const isLogin = async () => {
     try {
         const response = await requestInstance.get('/user/isLogin')
-        if (response.data.code !== 200) {
-            response.data.data = false
+        if (response.code !== 200) {
+            response.data = false
         }
-        return response.data;
+        return response;
     } catch (error) {
         console.error('Error fetching data:', error);
         return false

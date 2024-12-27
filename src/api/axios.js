@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ElMessage } from 'element-plus';
 
 const requestInstance = axios.create({
   baseURL: 'http://8.155.9.156/qihuis-world',
@@ -27,24 +28,22 @@ requestInstance.interceptors.request.use(
 );
 
 // // 响应拦截器  
-// requestInstance.interceptors.response.use(
-//   response => {
-//     /**  
-//      * 可以在这里对响应数据做点什么  
-//      * 例如，状态码为200的响应才认为是成功，其他都认为是错误  
-//      */
-//     const res = response.data;
-//     if (response.status !== 200) {
-//       console.error('请求失败', res);
-//       return Promise.reject(new Error('请求失败'));
-//     } else {
-//       return res;
-//     }
-//   },
-//   error => {
-//     console.error('响应错误', error); // for debug  
-//     return Promise.reject(error);
-//   }
-// );
+requestInstance.interceptors.response.use(
+  response => {
+    /**  
+     * 可以在这里对响应数据做点什么  
+     * 例如，状态码为200的响应才认为是成功，其他都认为是错误  
+     */
+    const res = response.data;
+    if (res.code !== 200) {
+      ElMessage.error(res.msg);
+    }
+    return res;
+  },
+  error => {
+    console.error('响应错误', error); // for debug  
+    return Promise.reject(error);
+  }
+);
 
 export default requestInstance;

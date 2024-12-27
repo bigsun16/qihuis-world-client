@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../page/HomePage.vue'
 import { isLogin } from '@/api/request'
 import { useTokenIsOkStore } from '@/store/PiniaStore'
-import { ElMessage } from 'element-plus'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,9 +37,6 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     isLogin().then(res => {
       useTokenIsOkStore().tokenIsOk = res.data
-      if (res.code !== 200) {
-        ElMessage.error(res.msg)
-      }
       return res.data ? next() : next('/')
     })
   } else {
