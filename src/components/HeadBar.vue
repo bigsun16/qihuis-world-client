@@ -47,7 +47,7 @@
         </nav>
         <LoginPage v-model="dialogLoginVisible" @update:dialogLoginVisible="dialogLoginVisible = $event"></LoginPage>
     </div>
-    
+
 </template>
 
 <script setup>
@@ -70,7 +70,7 @@ const currentUser = computed(() => {
     }
 })
 watch(() => tokenIsOkStore.tokenIsOk, (newTokenIsOk) => {
-    if (!newTokenIsOk) {
+    if (!newTokenIsOk && localStorage.getItem('login_info')) {
         isLogin().then(res => {
             tokenIsOkStore.tokenIsOk = res.data
             if (!res.data) {
@@ -185,6 +185,7 @@ function logout() {
             background-color: rgba(155, 157, 158, 0.1) !important;
         }
     }
+
     .headerButtonGroup {
         display: flex;
         justify-content: center;
@@ -235,24 +236,31 @@ function logout() {
         .homeImg .logoImg {
             height: 1.5rem;
         }
+
         .nav-name {
             font-size: 1rem;
+
             >span {
                 line-height: 1.5rem !important;
             }
         }
+
         .navbar-toggler {
             width: 0rem;
             height: 0rem;
+
             span {
                 display: none;
             }
         }
+
         .headerButtonGroup {
             margin-right: 0;
+
             .headerButton {
                 font-size: 1rem;
             }
+
             .loginUser {
                 display: inline-block;
                 position: absolute;
@@ -261,6 +269,6 @@ function logout() {
             }
         }
     }
-    
+
 }
 </style>

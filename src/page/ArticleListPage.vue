@@ -26,7 +26,7 @@ const route = useRoute()
 
 const currentPath = computed(() => route.path)
 const pageName = currentPath.value.substring(currentPath.value.lastIndexOf('/') + 1)
-onMounted(()=>{
+onMounted(() => {
     requestArticleList(pageName).then(response => {
         if (response.code === 200) {
             articles.value = response.data

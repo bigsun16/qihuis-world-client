@@ -20,23 +20,14 @@
 <script setup>
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
-import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { addOrUpdateArticle } from '@/api/request';
 import { useRoute } from 'vue-router';
-import router from '@/router';
 import { useMenuBarStore } from '@/store/PiniaStore'
 
 const store = useMenuBarStore()
 
-const article = ref({
-    categoryKey: 'null',
-    title: '',
-    content: '<p></p>',
-    previewText: '',
-    userId: '',
-    author: ''
-})
 const mode = ref("default")
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
@@ -44,13 +35,23 @@ const editorRef = shallowRef()
 const toolbarConfig = {}
 const editorConfig = { placeholder: '请输入内容...' }
 const route = useRoute()
-let addOrUpdte = "add"
-onMounted(() => {
-    addOrUpdte = route.query.type
-    const login_info = JSON.parse(localStorage.getItem('login_info'))
-    if (login_info) {
-        article.value.userId = login_info.loginId
-        article.value.author = login_info.username
+const addOrUpdte = computed(() => {
+    return route.query.type
+})
+
+const article = computed(() => {
+    if (route.query.type === 'update') {
+        return JSON.parse(localStorage.getItem('updateArticle'))
+    } else {
+        const login_info = JSON.parse(localStorage.getItem('login_info'))
+        return {
+            categoryKey: 'null',
+            title: '',
+            content: '<p></p>',
+            previewText: '',
+            userId: login_info.loginId,
+            author: login_info.username
+        }
     }
 })
 
@@ -62,22 +63,28 @@ onBeforeUnmount(() => {
 })
 
 const handleCreated = (editor) => {
-    if (addOrUpdte === 'update') {
-        article.value = JSON.parse(localStorage.getItem('updateArticle'))
-    }
     editorRef.value = editor // 记录 editor 实例，重要！
 }
 
 function submit() {
-
     article.value.previewText = editorRef.value.getText().substring(0, 50)
-    addOrUpdateArticle(article.value)
-    article.value = {
-        categoryKey: 'null',
-        title: '',
-        content: '<p></p>',
-        previewText: ''
-    }
+    addOrUpdateArticle(article.value).then((res) => {
+        if (res.code === 200) {
+            if (addOrUpdte.value === 'update') {
+                ElMessage.success('修改成功');
+            } else {
+                ElMessage.success('新增成功');
+                location.reload()
+            }
+        } else {
+            if (addOrUpdte.value === 'update') {
+                ElMessage.error('修改失败');
+            } else {
+                ElMessage.error('新增失败');
+            }
+        }
+    });
+
 }
 
 </script>
@@ -118,6 +125,7 @@ function submit() {
         overflow-y: hidden;
     }
 }
+
 @media (max-width: 772px) {
     .addArticlePage {
         width: 100%;

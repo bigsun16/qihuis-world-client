@@ -54,9 +54,9 @@ function close() {
 </script>
 
 <style lang="less">
-
 .login-dialog {
   width: 30% !important;
+
   .dialog-footer button:first-child {
     margin-right: 10px;
   }
@@ -67,6 +67,7 @@ function close() {
     width: 50vw !important;
   }
 }
+
 @media (max-width: 750px) {
   .login-dialog {
     width: 90vw !important;

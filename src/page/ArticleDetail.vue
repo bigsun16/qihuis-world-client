@@ -1,31 +1,35 @@
 <template>
-    <el-dialog class="my-dialog" :close-on-click-modal="false" :show-close="false" style="padding: 0 " >
+    <el-dialog class="my-dialog" :close-on-click-modal="false" :show-close="false" style="padding: 0 ">
         <template #header>
             <div><span>{{ article.createTime }}</span></div>
             <div><span>作者：{{ article.author }}</span></div>
             <div class="dialog-header-buttons">
-                <el-button class="transparent-button" @click="handleDelete"><el-icon><Delete /></el-icon></el-button>
-                <el-button class="transparent-button" @click="handleEdit"><el-icon><Edit /></el-icon></el-button>
-                <el-button class="transparent-button" @click="handleClose"><el-icon><Close /></el-icon></el-button>
+                <el-button class="transparent-button" @click="handleDelete"><el-icon>
+                        <Delete />
+                    </el-icon></el-button>
+                <el-button class="transparent-button" @click="handleEdit"><el-icon>
+                        <Edit />
+                    </el-icon></el-button>
+                <el-button class="transparent-button" @click="handleClose"><el-icon>
+                        <Close />
+                    </el-icon></el-button>
             </div>
         </template>
         <div class="article">
             <h4>{{ article.title }}</h4>
-            <Editor class="editorClass" v-model="article.content" @onCreated="handleCreated"/>
+            <Editor class="editorClass" v-model="article.content" @onCreated="handleCreated" />
         </div>
-        <el-dialog v-model="innerVisible" width="500" title="警告" append-to-body center>
-            <span>{{notice}}</span>
-        </el-dialog>
     </el-dialog>
 
 </template>
 
 <script setup>
-import {ref, shallowRef, defineProps, defineEmits, onBeforeUnmount} from 'vue'
+import { ref, shallowRef, defineProps, defineEmits, onBeforeUnmount } from 'vue'
 import { Editor } from '@wangeditor/editor-for-vue'
-import { Delete, Edit, Close} from '@element-plus/icons-vue';
+import { Delete, Edit, Close } from '@element-plus/icons-vue';
 import router from '@/router';
 import { deleteArticle } from '@/api/request';
+import { ElMessage } from 'element-plus';
 
 const props = defineProps({
     article: {
@@ -34,7 +38,6 @@ const props = defineProps({
     }
 });
 const emit = defineEmits(['update:dialogDetailVisible'])
-const innerVisible = ref(false)
 const notice = ref('')
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
@@ -51,13 +54,11 @@ onBeforeUnmount(() => {
 
 function handleEdit() {
     const loginInfo = JSON.parse(localStorage.getItem('login_info'))
-    if(!loginInfo){
-        innerVisible.value = true
-        notice.value = "请先登录"
-    } else if(loginInfo.loginId!= props.article.userId && loginInfo.roleList.indexOf('ADMINISTRATOR') === -1){
-        notice.value = "只能修改自己的文章"
-        innerVisible.value = true
-    } else{
+    if (!loginInfo) {
+        ElMessage.warning('请先登录')
+    } else if (loginInfo.loginId != props.article.userId && loginInfo.roleList.indexOf('ADMINISTRATOR') === -1) {
+        ElMessage.warning('只能修改自己的文章')
+    } else {
         localStorage.setItem('updateArticle', JSON.stringify(props.article))
         router.push('/wish/addArticlePage?type=update')
     }
@@ -69,20 +70,21 @@ function handleClose() {
 
 function handleDelete() {
     const loginInfo = JSON.parse(localStorage.getItem('login_info'))
-    if(!loginInfo){
-        innerVisible.value = true
-        notice.value = "请先登录"
-    } else if(loginInfo.loginId!= props.article.userId && loginInfo.roleList.indexOf('ADMINISTRATOR') === -1){
-        innerVisible.value = true
-        notice.value = "只能删除自己的文章"
-    }else{
-        deleteArticle(props.article.id).then(() => {
-            location.reload()
+    if (!loginInfo) {
+        ElMessage.warning('请先登录')
+    } else if (loginInfo.loginId != props.article.userId && loginInfo.roleList.indexOf('ADMINISTRATOR') === -1) {
+        ElMessage.warning('只能删除自己的文章')
+    } else {
+        deleteArticle(props.article.id).then(result => {
+            if (result.code === 200) {
+                ElMessage.success('删除成功')
+                location.reload()
+            } else {
+                ElMessage.error(result.msg)
+            }
         })
     }
 }
-
-
 
 </script>
 
@@ -110,12 +112,16 @@ function handleDelete() {
         gap: 10px;
 
         .transparent-button {
-            background-color: transparent; /* 设置背景颜色为透明 */
-            border-color: transparent;   /* 设置边框颜色为透明 */
+            background-color: transparent;
+            /* 设置背景颜色为透明 */
+            border-color: transparent;
+            /* 设置边框颜色为透明 */
 
         }
+
         .transparent-button:hover {
-            background-color: rgba(0, 0, 0, 0.1); /* 鼠标悬停时的背景颜色 */
+            background-color: rgba(0, 0, 0, 0.1);
+            /* 鼠标悬停时的背景颜色 */
         }
     }
 
@@ -136,12 +142,12 @@ function handleDelete() {
         }
     }
 
-    
+
 }
 
 @media (max-width: 772px) {
     .my-dialog {
-        width: 100vw
+        width: 90vw
     }
 }
 </style>

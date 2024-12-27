@@ -24,8 +24,8 @@ import HeadBar from '../components/HeadBar.vue';
 const route = useRoute()
 let introduce = "这是简介这是简介这是简介这是简介这是简介"
 const currentPath = computed(() => route.path)
-const pageName = currentPath.value.substring(currentPath.value.lastIndexOf('/')+1)
-introduce = '这是简介这是简介这是简介这是简介这是简介'+pageName
+const pageName = currentPath.value.substring(currentPath.value.lastIndexOf('/') + 1)
+introduce = '这是简介这是简介这是简介这是简介这是简介' + pageName
 // switch (pageName) {
 //     case 'thoughtPage':
 //         introduce = '这是简介这是简介这是简介这是简介这是简介'+pageName

@@ -63,6 +63,9 @@ export const doLogout = async () => {
 export const isLogin = async () => {
     try {
         const response = await requestInstance.get('/user/isLogin')
+        if (response.data.code !== 200) {
+            response.data.data = false
+        }
         return response.data;
     } catch (error) {
         console.error('Error fetching data:', error);
