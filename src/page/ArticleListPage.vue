@@ -1,6 +1,7 @@
 <template>
-    <el-timeline>
-        <el-scrollbar class="myTimeLine" style="overflow: auto">
+    <el-scrollbar class="myTimeLine">
+        <el-timeline v-infinite-scroll="load" :infinite-scroll-disabled="disabled" infinite-scroll-immediate="true"
+            infinite-scroll-distance="1">
             <el-timeline-item :timestamp="article.createTime" placement="top" v-for="(article, index) in articles"
                 :key="index">
                 <el-card class="myTimecard" @click="openArticleDetail(article)">
@@ -8,9 +9,12 @@
                     <p class="articleText">{{ article.previewText }}</p>
                 </el-card>
             </el-timeline-item>
-        </el-scrollbar>
-
-    </el-timeline>
+            <div class="loadInfo">
+                <p v-if="loading">Loading...</p>
+                <p v-if="noMore">No more</p>
+            </div>
+        </el-timeline>
+    </el-scrollbar>
     <ArticleDetail :article="thisArticle" v-model="dialogDetailVisible"
         @update:dialogDetailVisible="dialogDetailVisible = $event"></ArticleDetail>
 </template>
@@ -21,27 +25,53 @@ import { ref, onMounted, computed, reactive } from 'vue';
 import { requestArticleList } from '@/api/request';
 import { useRoute } from 'vue-router';
 
-let articles = ref([]);
 const route = useRoute()
+let articles = ref([]);
+const loading = ref(false);
+const noMore = computed(() => pageReq.value.current >= totalPages.value);
+const disabled = computed(() => loading.value || noMore.value);
+const totalPages = ref(0)
 
-const currentPath = computed(() => route.path)
-const pageName = currentPath.value.substring(currentPath.value.lastIndexOf('/') + 1)
-onMounted(() => {
-    requestArticleList(pageName).then(response => {
-        if (response.code === 200) {
-            articles.value = response.data
-        }
-    })
-
+const articleCategory = computed(() => {
+    const currentPath = route.path
+    return currentPath.substring(currentPath.lastIndexOf('/') + 1)
 })
+
+const pageReq = ref({
+    current: 1,
+    size: 5,
+    paramValue: articleCategory.value
+});
+onMounted(() => {
+    selectPageData()
+});
+const load = () => {
+    if (pageReq.value.current >= totalPages.value) {
+        return;
+    } else {
+        pageReq.value.current++
+        selectPageData()
+    }
+};
+function selectPageData() {
+    loading.value = true;
+    requestArticleList(pageReq.value).then(response => {
+        if (response.code === 200) {
+            totalPages.value = response.data.pages
+            articles.value.push(...response.data.records);
+        }
+        loading.value = false;
+    })
+}
+
 
 let thisArticle = reactive({})
 const dialogDetailVisible = ref(false)
-
 function openArticleDetail(article) {
     dialogDetailVisible.value = true
     thisArticle = { ...article }
 }
+
 </script>
 
 <style lang="less" scoped>

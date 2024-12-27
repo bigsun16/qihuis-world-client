@@ -1,8 +1,8 @@
 import requestInstance from '@/api/axios'; // 假设axios实例的文件路径是这里  
 
-export const requestArticleList = async (categoryKey) => {
+export const requestArticleList = async (pageReq) => {
     try {
-        return await requestInstance.get('/article/list', { params: { 'categoryKey': categoryKey } });
+        return await requestInstance.post('/article/list', pageReq);
     } catch (error) {
         console.error('Error fetching data:', error);
         throw error;

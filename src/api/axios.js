@@ -4,6 +4,7 @@ import { ElMessage } from 'element-plus';
 const requestInstance = axios.create({
   baseURL: 'http://8.155.9.156/qihuis-world',
   // baseURL: 'http://www.sunqihui.com/qihuis-world',
+  // baseURL: 'http://localhost:8888/qihuis-world',
   timeout: 5000 // 请求超时时间  
   // 这里可以添加其他全局配置  
 });
