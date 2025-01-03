@@ -44,7 +44,7 @@ const editorConfig = {
             // 最多可上传几个文件，默认为 100
             maxNumberOfFiles: 10,
             // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
-            allowedFileTypes: [],
+            allowedFileTypes: ['jpg', 'jpeg', 'png'],
             async customUpload(file, insertFn) {
                 const sha256 = await calculateSHA256ByWorker(file);
                 console.log(sha256);
@@ -60,7 +60,7 @@ const editorConfig = {
             // 最多可上传几个文件，默认为 100
             maxNumberOfFiles: 10,
             // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
-            allowedFileTypes: [],
+            allowedFileTypes: ['mp4'],
             // 超时时间，默认为 30 秒
             timeout: 15 * 1000, // 15 秒
             async customUpload(file, insertFn) {
