@@ -5,7 +5,7 @@ const requestInstance = axios.create({
   baseURL: 'https://8.155.9.156/qihuis-world',
   // baseURL: 'https://192.168.10.128/qihuis-world',
   // baseURL: 'http://localhost:8888/qihuis-world',
-  timeout: 1800000 // 请求超时时间  
+  timeout: 60000 // 请求超时时间 60s
   // 这里可以添加其他全局配置  
 });
 
