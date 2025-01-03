@@ -17,7 +17,7 @@
         </template>
         <div class="article">
             <h4>{{ article.title }}</h4>
-            <Editor class="editorClass" v-model="article.content" @onCreated="handleCreated" />
+            <Editor class="editorClass" v-model="article.content" @onCreated="handleCreated" :mode="mode" />
         </div>
     </el-dialog>
 
@@ -37,11 +37,12 @@ const props = defineProps({
         required: true
     }
 });
+const mode = ref("default")
 const emit = defineEmits(['update:dialogDetailVisible'])
-const notice = ref('')
+
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
-const handleCreated = (editor) => {
+const handleCreated = (editor) => {     // 创建编辑器实例
     editor.disable()
     editorRef.value = editor // 记录 editor 实例，重要！
 }
@@ -126,6 +127,7 @@ function handleDelete() {
     }
 
     .article {
+        height: 80vh;
         background-color: #fff0da;
         padding: 1.5rem;
         font-family: system-ui, sans-serif;
@@ -137,8 +139,8 @@ function handleDelete() {
 
         .editorClass {
             height: 70vh !important;
-            border: 1px solid #ccc;
-            overflow-y: hidden;
+            // border: 1px solid #ccc;
+            overflow-y: auto;
         }
     }
 

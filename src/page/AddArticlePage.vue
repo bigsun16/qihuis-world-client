@@ -22,9 +22,10 @@ import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { addOrUpdateArticle } from '@/api/request';
+import { addOrUpdateArticle, uploadFile } from '@/api/request';
 import { useRoute } from 'vue-router';
 import { useMenuBarStore } from '@/store/PiniaStore'
+import { calculateSHA256ByWorker } from '@/utils/fileUtils';
 
 const store = useMenuBarStore()
 
@@ -33,7 +34,47 @@ const mode = ref("default")
 const editorRef = shallowRef()
 
 const toolbarConfig = {}
-const editorConfig = { placeholder: '请输入内容...' }
+const editorConfig = {
+    placeholder: '请输入内容...',
+    MENU_CONF: {
+        uploadImage: {
+            fieldName: 'wishTreeFile',
+            // 单个文件的最大体积限制，默认为 2M
+            maxFileSize: 100 * 1024 * 1024, // 1M
+            // 最多可上传几个文件，默认为 100
+            maxNumberOfFiles: 10,
+            // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
+            allowedFileTypes: [],
+            async customUpload(file, insertFn) {
+                const sha256 = await calculateSHA256ByWorker(file);
+                console.log(sha256);
+                const result = await uploadFile(sha256, "hahah", file);
+                const { url, alt, href } = result.data;
+                insertFn(url, alt, url)
+            }
+        },
+        uploadVideo: {
+            fieldName: 'wishTreeFile',
+            // 单个文件的最大体积限制，默认为 2M
+            maxFileSize: 100 * 1024 * 1024, // 1M
+            // 最多可上传几个文件，默认为 100
+            maxNumberOfFiles: 10,
+            // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
+            allowedFileTypes: [],
+            // 超时时间，默认为 30 秒
+            timeout: 15 * 1000, // 15 秒
+            async customUpload(file, insertFn) {
+                const sha256 = await calculateSHA256ByWorker(file);
+                console.log(sha256);
+                const result = await uploadFile(sha256, "hahah", file);
+                const { url, alt, href } = result.data;
+                // 最后插入视频
+                insertFn(url, '')
+            }
+        }
+    }
+}
+
 const route = useRoute()
 const addOrUpdte = computed(() => {
     return route.query.type
@@ -120,7 +161,7 @@ function submit() {
     }
 
     .editorClass {
-        height: 70vh !important;
+        height: 60vh !important;
         border: 1px solid #ccc;
         overflow-y: hidden;
     }
