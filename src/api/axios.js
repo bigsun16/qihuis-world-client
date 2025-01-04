@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ElMessage } from 'element-plus';
 
 const requestInstance = axios.create({
-  baseURL: 'https://8.155.9.156/qihuis-world',
+  baseURL: window.location.origin +'/qihuis-world',
   // baseURL: 'https://192.168.10.128/qihuis-world',
   // baseURL: 'http://localhost:8888/qihuis-world',
   timeout: 60000 // 请求超时时间 60s
