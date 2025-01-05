@@ -40,11 +40,11 @@ const editorConfig = {
         uploadImage: {
             fieldName: 'wishTreeFile',
             // 单个文件的最大体积限制，默认为 2M
-            maxFileSize: 100 * 1024 * 1024, // 1M
+            maxFileSize: 5 * 1024 * 1024, // 5M 不生效
             // 最多可上传几个文件，默认为 100
             maxNumberOfFiles: 10,
             // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
-            allowedFileTypes: ['jpg', 'jpeg', 'png'],
+            uploadImgAccept: ['jpg', 'jpeg', 'png'],
             async customUpload(file, insertFn) {
                 const sha256 = await calculateSHA256ByWorker(file);
                 console.log(sha256);
@@ -56,11 +56,11 @@ const editorConfig = {
         uploadVideo: {
             fieldName: 'wishTreeFile',
             // 单个文件的最大体积限制，默认为 2M
-            maxFileSize: 100 * 1024 * 1024, // 1M
+            maxFileSize: 5 * 1024 * 1024, // 5M 不生效
             // 最多可上传几个文件，默认为 100
             maxNumberOfFiles: 10,
             // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
-            allowedFileTypes: ['mp4'],
+            uploadVideoAccept: ['mp4'],
             // 超时时间，默认为 30 秒
             timeout: 15 * 1000, // 15 秒
             async customUpload(file, insertFn) {
