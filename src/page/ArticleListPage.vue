@@ -1,4 +1,11 @@
 <template>
+    <div class="radioGroup">
+        <el-radio-group v-model="pageReq.selectType">
+            <el-radio value="ALL">全部文章</el-radio>
+            <el-radio value="MINE">自己文章</el-radio>
+            <el-radio value="OTHERS">他人文章</el-radio>
+        </el-radio-group>
+    </div>
     <el-scrollbar class="myTimeLine">
         <el-timeline v-infinite-scroll="load" :infinite-scroll-disabled="disabled" infinite-scroll-immediate="true"
             infinite-scroll-distance="1">
@@ -21,7 +28,7 @@
 
 <script setup>
 import ArticleDetail from './ArticleDetail.vue'
-import { ref, onMounted, computed, reactive } from 'vue';
+import { ref, onMounted, computed, reactive, watch } from 'vue';
 import { requestArticleList } from '@/api/request';
 import { useRoute } from 'vue-router';
 
@@ -39,12 +46,18 @@ const articleCategory = computed(() => {
 
 const pageReq = ref({
     current: 1,
-    size: 5,
-    paramValue: articleCategory.value
+    size: 4,
+    paramValue: articleCategory.value,
+    selectType: 'ALL'
 });
 onMounted(() => {
     selectPageData()
 });
+watch(() => pageReq.value.selectType, () => {
+    articles.value = []
+    pageReq.value.current = 1
+    selectPageData()
+})
 const load = () => {
     if (pageReq.value.current >= totalPages.value) {
         return;
@@ -75,10 +88,16 @@ function openArticleDetail(article) {
 </script>
 
 <style lang="less" scoped>
+.radioGroup {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
 .myTimeLine {
     max-width: 600px !important;
-    height: 80vh;
-    margin: 0 auto;
+    height: 75vh;
+    margin: 5vh auto 0 auto;
 
     .myTimecard {
         background-color: #fff0da;
